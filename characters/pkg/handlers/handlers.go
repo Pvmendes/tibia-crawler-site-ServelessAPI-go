@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	charName "golang-Serveless-characters/pkg/char"
+	character "golang-Serveless-characters/pkg/char"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -18,7 +18,7 @@ func GetUser(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse
 
 	name := req.QueryStringParameters["charName"]
 	if len(name) > 0 {
-		result, err := charName.GetCharInfo(name)
+		result, err := character.GetCharInfo(name)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, ErrorBody{aws.String(err.Error())})
 		}

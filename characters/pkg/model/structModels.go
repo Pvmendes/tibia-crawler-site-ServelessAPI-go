@@ -1,5 +1,9 @@
 package structModel
 
+type CharacterResponse struct {
+	Character Character `json:"character"`
+}
+
 // Child of CharacterInfo
 type Houses struct {
 	Name    string `json:"name"`    // The name of the house.

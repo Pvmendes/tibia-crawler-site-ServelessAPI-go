@@ -22,6 +22,8 @@ var (
 	localDivQueryString = ".TableContentContainer tr"
 	localTradedString   = " (traded)"
 
+	charData model.Character
+
 	CharInfo               model.CharacterInfo
 	AccountBadgesData      []model.AccountBadges
 	AchievementsData       []model.Achievements
@@ -34,7 +36,9 @@ var (
 	insideError       error
 )
 
-func ScrapingInSite(urlSite string) {
+
+
+func ScrapingInSite(urlSite string) (*model.CharacterResponse, error) {
 	//fmt.Println(urlSite)
 	c := colly.NewCollector(colly.AllowedDomains("www.tibia.com", "tibia.com"))
 
@@ -68,7 +72,21 @@ func ScrapingInSite(urlSite string) {
 		}
 	})
 
+	c.OnScraped(func(r *colly.Response) {
+		// Build the character data
+		charData = model.Character{
+			CharInfo,
+			AccountBadgesData,
+			AchievementsData,
+			DeathsData,
+			AccountInformationData,
+			OtherCharactersData,
+		}
+	})
+
 	c.Visit(urlSite)
+
+	return &model.CharacterResponse{charData}, nil
 }
 
 func readCharacter(selection *goquery.Selection, SectionName string) {
@@ -382,7 +400,7 @@ func readAccountBadges(selection *goquery.Selection, SectionName string) {
 				Description: CharacterListHTML[descIdx:endDescIdx],
 			})
 		}
-		fmt.Print(AccountBadgesData)
+		//fmt.Print(AccountBadgesData)
 		return true
 	})
 }
@@ -395,7 +413,7 @@ func readAccountInformation(selection *goquery.Selection, SectionName string) {
 	characterDivQuery.Find(localDivQueryString).Each(func(index int, s *goquery.Selection) {
 		rowNameQuery := s.Find("td[class^='Label']")
 
-		fmt.Printf("\n")
+		//fmt.Printf("\n")
 
 		rowName := rowNameQuery.Nodes[0].FirstChild.Data
 		rowData := rowNameQuery.Nodes[0].NextSibling.FirstChild.Data
@@ -515,7 +533,7 @@ func readAccountInformation(selection *goquery.Selection, SectionName string) {
 
 	})
 
-	fmt.Print(CharInfo)
+	//fmt.Print(CharInfo)
 }
 
 func TibiaDataParseKiller(data string) (string, bool, bool, string) {

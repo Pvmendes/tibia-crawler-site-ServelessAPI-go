@@ -11,19 +11,15 @@ import (
 
 var scrapeUrlBase string = "https://www.tibia.com/community/?name="
 
-func GetCharInfo(name string) (*model.Character, error) {
-	
+func GetCharInfo(name string) (*model.CharacterResponse, error) {
+
 	err := valid.IsCharNameValid(charNameEscapeString(name))
 
 	if checkErr(err) {
-		fmt.Println("leave Check")
-		return new(model.Character), err
+		return new(model.CharacterResponse), err
 	}
-	
-	scrap.ScrapingInSite(scrapeUrlBase + name)
 
-	item := new(model.Character)
-	return item, nil
+	return scrap.ScrapingInSite(scrapeUrlBase + name)
 }
 
 func checkErr(err error) bool {

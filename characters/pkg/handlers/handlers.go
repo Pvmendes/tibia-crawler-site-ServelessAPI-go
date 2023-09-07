@@ -17,16 +17,23 @@ type ErrorBody struct {
 func GetUser(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 
 	name := req.QueryStringParameters["charName"]
+
 	if len(name) > 0 {
+
 		result, err := character.GetCharInfo(name)
+
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, ErrorBody{aws.String(err.Error())})
 		}
+
 		return apiResponse(http.StatusOK, result)
+
 	} else {
+
 		return apiResponse(http.StatusBadRequest, ErrorBody{
 			aws.String("We need name of the char"),
 		})
+
 	}
 }
 

@@ -26,3 +26,4 @@ bootstrap
 
 characters/cmd/build/
 worlds/cmd/build/
+*.vscode

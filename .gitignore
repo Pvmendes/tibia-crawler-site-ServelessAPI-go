@@ -22,5 +22,7 @@
 # Go workspace file
 go.work
 
+bootstrap
+
 characters/cmd/build/
 worlds/cmd/build/

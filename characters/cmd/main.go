@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// fmt.Println(character.GetCharInfo("lucy+soul"))
+	//fmt.Println(character.GetCharInfo("lucy+soul"))
 	lambda.Start(handler)
 }
 

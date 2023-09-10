@@ -36,8 +36,6 @@ var (
 	insideError       error
 )
 
-
-
 func ScrapingInSite(urlSite string) (*model.CharacterResponse, error) {
 	//fmt.Println(urlSite)
 	c := colly.NewCollector(colly.AllowedDomains("www.tibia.com", "tibia.com"))
@@ -55,7 +53,7 @@ func ScrapingInSite(urlSite string) (*model.CharacterResponse, error) {
 		selection := h.DOM
 
 		caption := selection.Find("div.Text").Text()
-		// fmt.Printf(caption)
+		//fmt.Printf(caption)
 		switch caption {
 		case "Could not find character":
 			break
@@ -75,18 +73,20 @@ func ScrapingInSite(urlSite string) (*model.CharacterResponse, error) {
 	c.OnScraped(func(r *colly.Response) {
 		// Build the character data
 		charData = model.Character{
-			CharInfo,
-			AccountBadgesData,
-			AchievementsData,
-			DeathsData,
-			AccountInformationData,
-			OtherCharactersData,
+			CharacterInfo:      CharInfo,
+			AccountBadges:      AccountBadgesData,
+			Achievements:       AchievementsData,
+			Deaths:             DeathsData,
+			AccountInformation: AccountInformationData,
+			OtherCharacters:    OtherCharactersData,
 		}
+
+		fmt.Println(charData)
 	})
 
 	c.Visit(urlSite)
 
-	return &model.CharacterResponse{charData}, nil
+	return &model.CharacterResponse{Character: charData}, nil
 }
 
 func readCharacter(selection *goquery.Selection, SectionName string) {

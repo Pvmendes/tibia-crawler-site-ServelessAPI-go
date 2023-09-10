@@ -5,7 +5,7 @@ Inspired by [Tobias Lindberg](https://github.com/tobiasehlert) and his repositor
 
 
 # Compile this project
-go build -o build/main main.go
+go build -o bootstrap main.go
 
 # If you use in windows
 [Link](https://docs.aws.amazon.com/pt_br/lambda/latest/dg/golang-package.html#golang-package-windows)
